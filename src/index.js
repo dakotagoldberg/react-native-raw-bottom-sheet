@@ -70,8 +70,10 @@ class RBSheet extends Component {
         }
       },
       onPanResponderRelease: (e, gestureState) => {
+        const { onDrag } = this.props;
         if (height / 4 - gestureState.dy < 0) {
           this.setModalVisible(false);
+          if (typeof onDrag === "function") onDrag(props); // test
         } else {
           Animated.spring(pan, { toValue: { x: 0, y: 0 }, useNativeDriver: false }).start();
         }
@@ -157,6 +159,7 @@ RBSheet.propTypes = {
   customStyles: PropTypes.objectOf(PropTypes.object),
   onClose: PropTypes.func,
   onOpen: PropTypes.func,
+  onDrag: PropTypes.func,
   children: PropTypes.node
 };
 
@@ -174,6 +177,7 @@ RBSheet.defaultProps = {
   customStyles: {},
   onClose: null,
   onOpen: null,
+  onDrag: null,
   children: <View />
 };
 
